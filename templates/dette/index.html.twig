@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Dettes pour {{ client.surname }} ({{ client.telephone }})</h1>
+<div class="d-flex justify-content-between">
+    <h3>Total de la Dette: {{ totalDette }} €</h3>
+    <div>
+        <a href="{{ path('dette_filter', {status: 'solde'}) }}" class="btn btn-success">Soldées</a>
+        <a href="{{ path('dette_filter', {status: 'non_solde'}) }}" class="btn btn-warning">Non Soldées</a>
+    </div>
+</div>
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Montant</th>
+            <th>Montant Versé</th>
+            <th>Montant Restant</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dette in dettes %}
+            <tr>
+                <td>{{ dette.date|date('d/m/Y') }}</td>
+                <td>{{ dette.montant }} €</td>
+                <td>{{ dette.montantVersee }} €</td>
+                <td>{{ dette.montantRestant }} €</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="text-center">Aucune dette trouvée</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="d-flex justify-content-center">
+    {{ knp_pagination_render(dettes) }}
+</div>
+{% endblock %}

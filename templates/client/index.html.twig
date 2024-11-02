@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Liste des Clients</h1>
+<div class="mb-3">
+    <form method="get" action="{{ path('client_index') }}" class="d-flex">
+        <input type="text" name="telephone" class="form-control me-2" placeholder="Téléphone">
+        <input type="text" name="surname" class="form-control me-2" placeholder="Nom de famille">
+        <button type="submit" class="btn btn-primary">OK</button>
+        <a href="{{ path('client_create') }}" class="btn btn-success ms-2">Créer</a>
+    </form>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>Adresse</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.surname }}</td>
+                <td>{{ client.telephone }}</td>
+                <td>{{ client.adresse }}</td>
+                <td>
+                    <a href="{{ path('dette_show', {id: client.id}) }}" class="btn btn-info btn-sm">Dettes</a>
+                    <a href="{{ path('client_delete', {id: client.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" class="text-center">Aucun client trouvé</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="d-flex justify-content-center">
+    {{ knp_pagination_render(clients) }}
+</div>
+{% endblock %}
